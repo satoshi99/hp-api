@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "hp-api"
+version = "0.1.0"
+description = ""
+authors = ["satoshi <3104nit@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+taskipy = "^1.10.2"
+fastapi = "^0.78.0"
+uvicorn = "^0.17.6"
+gunicorn = "^20.1.0"
+SQLAlchemy = "^1.4.37"
+databases = {extras = ["postgresql"], version = "^0.6.0"}
+alembic = "^1.8.0"
+psycopg2 = "^2.9.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+mypy = "^0.961"
+black = "^22.3.0"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+test = { cmd = "pytest tests", help = "runs all unit tests" }
+pr_test = "task lint"
+fmt = { cmd = "black tests example_server", help = "format code" }
+lint = { cmd = "task lint_black && task lint_flake8 && task lint_mypy", help = "exec lint" }
+lint_flake8 = "flake8 --max-line-length=88 tests example_server"
+lint_mypy = "mypy tests example_server"
+lint_black = "black --check tests example_server"
+
+[tool.black]
+line-length = 88
+
+[flake8]
+max-line-length = 88
+max-complexity = 20
+
+[tool.isort]
+line_length = 88
+force_single_line = true
+
+[mypy]
+ignore_missing_imports = 1
